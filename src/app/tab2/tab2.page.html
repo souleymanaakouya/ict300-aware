@@ -1,0 +1,59 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button>
+        
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-title>Aware</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div cards>
+    <!--  de card -->
+    <div class="grid-full">
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <img src="../../assets/logo.svg" />
+            <p>Em gozo</p>
+          </ion-card>
+        </ion-col>
+
+        <ion-col>
+          <ion-card>
+            <img src="../../assets/logo.svg" />
+            <p>Homologadas</p>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <ion-button (click)="direct()" expand="block" fill="clear" shape="round">
+      Click me
+    </ion-button>
+      <ion-button (click)="ver()" expand="block" fill="clear" shape="round">
+      Etudiant
+    </ion-button>
+
+  </div>
+
+<!-- <ion-card>
+  <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img src="../../assets/logo.svg" />
+    </ion-avatar>
+    <ion-label>
+      <h2><b>Elon Musk</b></h2>
+      <p>Il y a 14 heures</p>
+    </ion-label>
+  </ion-item>
+  <ion-item lines="none" class="tweet">
+    <p>pppp</p>
+          <img src="../../assets/logo.svg" />
+    <ion-label text-wrap>Production version will be a lot more polished than this prototype, but still fun to see</ion-label>
+  </ion-item>
+</ion-card> -->
+</ion-content>
