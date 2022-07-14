@@ -195,7 +195,6 @@ export class Tab3Page implements OnInit {
 
     const requestOptions = { headers: headers };
 
-
     this.httpClient.get('https://aware-backend.herokuapp.com/api/level', requestOptions).subscribe((e) => {
       console.log(e);
       this.levels = e;
@@ -233,7 +232,6 @@ export class Tab3Page implements OnInit {
         console.log(err);
         this.hasLoadedUsers = false;
       })
-
 
     this.httpClient.get('https://aware-backend.herokuapp.com/api/semester', requestOptions).subscribe((e) => {
       console.log(e);
@@ -330,7 +328,6 @@ export class Tab3Page implements OnInit {
     formData.append('students', this.formValue.students);
     formData.append('semesters', this.formValue.semesters);
     formData.append('hall', this.formValue.hall);
-
     // const bodyData = {
     //   date: this.formValue.date,
     //   duration: this.formValue.duration,

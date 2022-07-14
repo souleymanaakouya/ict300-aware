@@ -2,22 +2,37 @@
   <ion-toolbar>
     <ion-title>
       <div class="top_menu">
+<<<<<<< HEAD
         <div class="top_menu_text text-center">
           <strong class="mycolor" align="center">EMARGEMENT</strong>
         </div>
         <!-- <div class="top_menu_icon">
           <ion-icon name="person-add-outline" (click)="presentPopover($event)"></ion-icon>
         </div> -->
+=======
+        <div class="top_menu_text text-center">Emargement</div>
+        <div class="top_menu_icon">
+          <ion-icon name="person-add-outline" (click)="presentPopover($event)"></ion-icon>
+        </div>
+>>>>>>> a84ed15f429ca0f7366cdaf5daa9c4a1e388f5be
       </div>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+<<<<<<< HEAD
   <div class="form ion-text-center">
     <form [formGroup]="formPresence" (ngSubmit)='enregistrer()' (ngSubmit)="submitForm()" novalidate>
       <ion-list>
 
+=======
+
+  <div class="form ion-text-center">
+    <form [formGroup]="formPresence" (ngSubmit)='enregistrer()' (ngSubmit)="submitForm()">
+      <ion-list>
+        
+>>>>>>> a84ed15f429ca0f7366cdaf5daa9c4a1e388f5be
         <ion-card>
           <ion-item>
             <ion-label>SEMESTRE : </ion-label>
@@ -27,9 +42,12 @@
               </ion-select-option>
             </ion-select>
           </ion-item>
+<<<<<<< HEAD
           <span class="error ion-padding" class="couleur" *ngIf="isSubmitted && errorControl.name.errors?.required">
             Inserez le semestre
           </span>
+=======
+>>>>>>> a84ed15f429ca0f7366cdaf5daa9c4a1e388f5be
         </ion-card>
 
         <ion-card>
@@ -39,9 +57,12 @@
               <ion-select-option *ngFor="let level of levels" value={{level?.id}}>{{level?.name}}</ion-select-option>
             </ion-select>
           </ion-item>
+<<<<<<< HEAD
           <span class="error ion-padding" class="couleur" *ngIf="isSubmitted && errorControl.level_id.errors?.required">
             Inserez le NIVEAU
           </span>
+=======
+>>>>>>> a84ed15f429ca0f7366cdaf5daa9c4a1e388f5be
         </ion-card>
 
         <ion-card>
@@ -53,14 +74,18 @@
               </ion-select-option>
             </ion-select>
           </ion-item>
+<<<<<<< HEAD
           <span class="error ion-padding" class="couleur"
             *ngIf="isSubmitted && errorControl.professor_id.errors?.required">
             Inserez le semestre
           </span>
+=======
+>>>>>>> a84ed15f429ca0f7366cdaf5daa9c4a1e388f5be
         </ion-card>
 
         <ion-card>
           <ion-item>
+<<<<<<< HEAD
             <ion-label> UE : </ion-label>
             <ion-select formControlName="course_id" interface="popover" placeholder="Select UE" *ngIf='hasLoadedCours'>
               <ion-select-option value={{cour?.id}} *ngFor="let cour of possiblesCourses">{{cour?.name}}
@@ -76,6 +101,8 @@
 
         <ion-card>
           <ion-item>
+=======
+>>>>>>> a84ed15f429ca0f7366cdaf5daa9c4a1e388f5be
             <ion-label>DELEGUE :</ion-label>
             <ion-select formControlName="delegate_id" interface="popover" *ngIf='users.length > 0'>
               <ion-select-option value={{user?.id}} *ngFor="let user of users">{{user?.name}}</ion-select-option>
@@ -83,6 +110,18 @@
           </ion-item>
         </ion-card>
 
+<<<<<<< HEAD
+=======
+        <ion-card>
+          <ion-item>
+            <ion-label> EU : </ion-label>
+            <ion-select formControlName="course_id" interface="popover" placeholder="Select UE" *ngIf='hasLoadedCours'>
+              <ion-select-option value={{cour?.id}} *ngFor="let cour of possiblesCours">{{cour?.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-card>
+>>>>>>> a84ed15f429ca0f7366cdaf5daa9c4a1e388f5be
 
         <ion-card>
           <ion-item>
@@ -93,15 +132,22 @@
               <ion-select-option value="S102">S102</ion-select-option>
             </ion-select>
           </ion-item>
+<<<<<<< HEAD
           <span class="error ion-padding" class="couleur" *ngIf="isSubmitted && errorControl.hall.errors?.required">
             Inserez une SALLE
           </span>
+=======
+>>>>>>> a84ed15f429ca0f7366cdaf5daa9c4a1e388f5be
         </ion-card>
 
         <ion-card>
           <ion-item>
             <ion-label>SEANCE : </ion-label>
+<<<<<<< HEAD
             <ion-select interface="popover" placeholder="Selectseance" formControlName="session">
+=======
+            <ion-select interface="popover" placeholder="Select seance" formControlName="session">
+>>>>>>> a84ed15f429ca0f7366cdaf5daa9c4a1e388f5be
               <ion-select-option value="CM">CM</ion-select-option>
               <ion-select-option value="TP">TP</ion-select-option>
               <ion-select-option value="SN">SN</ion-select-option>
