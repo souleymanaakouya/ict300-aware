@@ -1,16 +1,15 @@
-import { Component } from '@angular/core';
-import { MenuController, ModalController } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  selector: 'app-mymodal',
+  templateUrl: './mymodal.page.html',
+  styleUrls: ['./mymodal.page.scss'],
 })
-export class Tab2Page {
+export class MymodalPage implements OnInit {
   hasLoadedCours: boolean = false;
   cours: any = [];
   levels: any = [];
@@ -19,25 +18,23 @@ export class Tab2Page {
   userData: any;
   formPresence: FormGroup;
   possiblesStudents: any = [];
-  
-  users = {
-    name: '',
-    email: '',
-    level_id: '',
-  };
 
-  constructor(private formBuilder: FormBuilder,private menu: MenuController, private router: Router, public httpClient: HttpClient, private modalController: ModalController) { 
+  constructor(
+    private formBuilder: FormBuilder,
+    public modalCtrl: ModalController,
+     public router: Router,
+     public httpClient: HttpClient
+     ) { 
     this.formPresence = this.formBuilder.group({
       students: ['', Validators.required],
       name: ['', Validators.required],
       level_id: ['', Validators.required],
     });
-  }
+     }
 
   ngOnInit() {
     this.getUsers();
   }
-
   async getUsers() {
     let userinfo = JSON.parse(localStorage.getItem('userinfo'));
     let token = userinfo?.access_token;
@@ -57,28 +54,12 @@ export class Tab2Page {
         console.log(err);
         this.hasLoadedCours = false;
       });
+    }
+  closeModal() {
+    this.modalCtrl.dismiss();
   }
 
-  openFirst() {
-    this.menu.enable(true, 'first');
-    this.menu.open('first');
-  }
-
-  openEnd() {
-    this.menu.open('end');
-  }
-
-  openCustom() {
-    this.menu.enable(true, 'custom');
-    this.menu.open('custom');
-  }
-  async direct(){
-    this.router.navigate(['/profile']);
-  }
-
-
-  async ver(){
-    this.router.navigate(['/etudiant']);
+  async fermer(){
+    this.router.navigate(['/syllabus']);
   }
 }
-

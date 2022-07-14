@@ -1,25 +1,54 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>profile</ion-title>
-      <ion-buttons slot="start" (click)="closeModal()" >
+    <ion-title>
+      <strong align="center">
+        Profile
+      </strong>
+    </ion-title>
+    <!-- <ion-buttons slot="start" (click)="closeModal()" >
       <ion-back-button defaultHref="tab2"></ion-back-button>
+    </ion-buttons> -->
+    <ion-buttons slot="start">
+      <ion-menu-button>
+      </ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <!-- 
  <ion-list *ngIf='users != null'>
-  {{users  | json}}
+  {{users  | json}} -->
+  <!-- <ion-card> -->
+  <!-- <ion-card-content> -->
+    <div align="center">
+      <ion-avatar>
+        <img src="assets/sman.png"/>
+      </ion-avatar>
+    </div>
+    <ion-card>
+      <p color="primary"><strong>Nom : {{ users.name }}</strong> </p>
+      <!-- <ion-badge color="primary"></ion-badge><br /><br /> -->
+    </ion-card>
+    <ion-card>
+      <p color="primary"><strong>Matricule : 19M2878</strong> </p>
+    </ion-card>
+    <ion-card>
+      <p color="primary"><strong>Email : {{ users.email }}</strong> </p>
+      <!-- <ion-badge color="primary"></ion-badge><br /><br /> -->
+    </ion-card>
+    <ion-card>
+      <p color="primary"><strong>Role  : {{ users.role }}</strong> </p>
+      <!-- <ion-badge color="primary"></ion-badge>  -->
+    </ion-card>
+    <ion-card>
+      <p color="primary"><strong>Niveau : L3</strong> </p>
+    </ion-card>
+  <!-- </ion-card-content> -->
+  <!-- </ion-card> -->
 
-<ion-card-content>
-        <ion-badge color="secondary">Name</ion-badge>{{ users.name }}<br /><br />
-        <ion-badge color="tertiary">Email</ion-badge> {{ users.email }}<br /><br />
-        <ion-badge color="tertiary">Role</ion-badge> {{ users.role }}
-</ion-card-content>
-
-</ion-list>
-<!-- 
+  <!-- </ion-list> -->
+  <!-- 
 <ion-list>
   
   <ion-card >

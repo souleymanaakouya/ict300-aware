@@ -7,14 +7,15 @@ import { ModalController } from '@ionic/angular';
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
+  
 })
 export class AppComponent {
   public pages: any[] = [
-    {title: 'Etudiant', url: '/etudiant', icon: 'people'},
+    {title: 'Acceil', url: '/tabs/tab2', icon: 'home' },
+    {title: 'Emargement', url: '/tabs/tab3', icon: 'list' },
+    {title: 'Syllabus', url: '/syllabus', icon: 'book'},
+    {title: 'Etudiant', url: '/tabs/tab1', icon: 'people'},
     {title: 'Professeur', url: '/listerprof', icon: 'people'},
-    {title: 'Parametre', url: '/privacy', icon: 'settings'},
-    {title: 'Apropos', url: '/about', icon: 'information-circle'},
-    {title: 'Sign Out', url: '', icon: 'log-out', route: true},
   ];
   users = {
     name: '',

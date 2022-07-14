@@ -34,7 +34,7 @@ export class ListerprofPage implements OnInit {
 
     const requestOptions = { headers: headers };
 
-   this.httpClient.get('https://warm-depths-77252.herokuapp.com/api/professor', requestOptions).subscribe((e) => {
+     this.httpClient.get('https://aware-backend.herokuapp.com/api/professor', requestOptions).subscribe((e) => {
       console.log(e);
       this.enseignants = e;
       this.hasLoadedEnseignants= true;
@@ -45,12 +45,5 @@ export class ListerprofPage implements OnInit {
     })
   }
 
-   drop(i : number){
-    console.log('test');
-    if(confirm('vous etes sur de vouloir supprimer')){
-      this.userData.splice(i, 1);
-      localStorage.setItem('id', JSON.stringify(this.userData));
-    }
-  }
 
 }

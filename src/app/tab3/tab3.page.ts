@@ -1,9 +1,8 @@
 import { PopoverComponent } from './../popover/popover.component';
 import { Component, OnInit } from '@angular/core';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { LoadingController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
-
+import { FormGroup, FormControl, Validators, FormBuilder, FormGroupDirective } from '@angular/forms'
 
 import { ModalPage } from '../modal/modal.page';
 import { IonLoaderService } from '../service/ion-loader.service';
@@ -14,13 +13,17 @@ import { IonLoaderService } from '../service/ion-loader.service';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page implements OnInit {
-  ionicForm: any;
+
+
+
+  // ionicForm: any;
   levels: any = [];
   hasLoadedStudents: boolean = false;
   enseignants: any = [];
   hasLoadedLevels: boolean = false;
   cours: any = [];
-  possiblesCours: any = [];
+  possiblesSemesters: any = [];
+  possiblesUsers: any = [];
   possiblesStudents: any = [];
   hasLoadedCours: boolean = false;
   students: any = [];
@@ -52,8 +55,7 @@ export class Tab3Page implements OnInit {
   isSubmitted = false;
 
 
-  constructor(private ionLoaderService: IonLoaderService, private popoverController: PopoverController, private formBuilder: FormBuilder, private httpClient: HttpClient, private modalCtrl: ModalController) 
-  {
+  constructor(public loadingCtrl: LoadingController, public toastController: ToastController, private ionLoaderService: IonLoaderService, private popoverController: PopoverController, private formBuilder: FormBuilder, private httpClient: HttpClient, private modalCtrl: ModalController) {
     this.formPresence = this.formBuilder.group({
       course_title: ['', Validators.required],
       course_id: ['', Validators.required],
@@ -72,6 +74,63 @@ export class Tab3Page implements OnInit {
       hall: ['', Validators.required],
     });
 
+
+    // this.formPresence.get("semesters").valueChanges.subscribe(value => {
+    //   console.log(value)
+    //   let teachingUnits = this.cours.filter((elt) => {
+    //     return elt.semester.id === parseInt(value);
+    //   });
+
+    //   if (this.possiblesCourses.length > 0) {
+    //     this.formPresence.get("course_id").setValue(teachingUnits[0].id);
+    //   }
+    //   else {
+    //     this.formPresence.get("course_id").setValue(null);
+    //   }
+    // });
+
+    this.formPresence.get("level_id").valueChanges.subscribe(value => {
+      console.log(value)
+      let teachingUnits = this.cours.filter((elt) => {
+        return elt.level.id === parseInt(value);
+      });
+
+      if (this.possiblesCourses.length > 0) {
+        this.formPresence.get("course_id").setValue(teachingUnits[0].id);
+      }
+      else {
+        this.formPresence.get("course_id").setValue(null);
+      }
+    });
+
+    this.formPresence.get("level_id").valueChanges.subscribe(value => {
+      console.log(value)
+      let teachingUnits = this.students.filter((elt) => {
+        return elt.level.id === parseInt(value);
+      });
+
+      if (this.possiblesStudents.length > 0) {
+        this.formPresence.get("students").setValue(teachingUnits[0].id);
+      }
+      else {
+        this.formPresence.get("students").setValue(null);
+      }
+    });
+
+    // this.formPresence.get("level_id").valueChanges.subscribe(value => {
+    //   console.log(value)
+    //   let teachingUnits = this.users.filter((elt) => {
+    //     return elt.level.id === parseInt(value);
+    //   });
+
+    //   if (this.possiblesUsers.length > 0) {
+    //     this.formPresence.get("delegate_id").setValue(teachingUnits[0].id);
+    //   }
+    //   else {
+    //     this.formPresence.get("delegate_id").setValue(null);
+    //   }
+    // });
+
     this.formPresence.get("professor_id").valueChanges.subscribe(value => {
       console.log(value)
       let teachingUnits = this.cours.filter((elt) => {
@@ -79,37 +138,32 @@ export class Tab3Page implements OnInit {
         return professorsId.includes(parseInt(value));
       });
 
-      this.possiblesCours = teachingUnits;
-      if (teachingUnits && teachingUnits.length > 0) {
+      if (this.possiblesCourses.length > 0) {
         this.formPresence.get("course_id").setValue(teachingUnits[0].id);
       }
       else {
         this.formPresence.get("course_id").setValue(null);
       }
-
     });
 
-    // this.formPresence.get("cours_id").valueChanges.subscribe(value => {
-    //   console.log(value)
-    //   this.possiblesStudents = this.students.filter(elt => elt.cours_id = value);
+    this.formPresence.get("semesters").valueChanges.subscribe(value => {
+      console.log(value)
+      let teachingUnits = this.cours.filter((elt) => {
+        let semesterId = elt.semester.map(semes => semes.id);
+        return semesterId.includes(parseInt(value));
+      });
 
-    //   this.formPresence.get("students").setValue(null);
+      if (this.possiblesCourses.length > 0) {
+        this.formPresence.get("course_id").setValue(teachingUnits[0].id);
+      }
+      else {
+        this.formPresence.get("course_id").setValue(null);
+      }
+    });
 
-      // let studentUnits = this.students.filter((elt) => {
-      //   let levelsId = elt.levels.map(levels => levels.id);
-      //   return levelsId.includes(parseInt(value));
-      // });
-
-      // this.possiblesStudents = studentUnits;
-      // if (studentUnits && studentUnits.length > 0) {
-      //   this.formPresence.get("students").setValue(studentUnits[0].id);
-      // }
-      // else {
-      //   this.formPresence.get("students").setValue(null);
-      // }
-
-    // })
   }
+
+
 
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
@@ -124,8 +178,10 @@ export class Tab3Page implements OnInit {
   }
 
   ngOnInit() {
+    
     this.getData();
     console.log(history);
+    // this.formPresence.reset();
   }
 
 
@@ -138,6 +194,7 @@ export class Tab3Page implements OnInit {
     });
 
     const requestOptions = { headers: headers };
+
 
     this.httpClient.get('https://aware-backend.herokuapp.com/api/level', requestOptions).subscribe((e) => {
       console.log(e);
@@ -160,7 +217,6 @@ export class Tab3Page implements OnInit {
       this.httpClient.get('https://aware-backend.herokuapp.com/api/course', requestOptions).subscribe((e) => {
         console.log(e);
         this.cours = e;
-        this.possiblesCours = e;
         this.hasLoadedCours = true;
       },
         (err) => {
@@ -178,6 +234,7 @@ export class Tab3Page implements OnInit {
         this.hasLoadedUsers = false;
       })
 
+
     this.httpClient.get('https://aware-backend.herokuapp.com/api/semester', requestOptions).subscribe((e) => {
       console.log(e);
       this.semesters = e;
@@ -190,8 +247,7 @@ export class Tab3Page implements OnInit {
     this.httpClient.get('https://aware-backend.herokuapp.com/api/student', requestOptions).subscribe((e) => {
       console.log(e);
       this.students = e;
-      this.possiblesStudents = e;
-      // let studentsId = e.map(elt => elt.id);
+      // this.possiblesStudents = e;
 
       this.hasLoadedStudents = true;
     },
@@ -200,10 +256,48 @@ export class Tab3Page implements OnInit {
         this.hasLoadedStudents = false;
       })
   }
+  get possiblesStudent() {
+    let temp = this.students.filter(elt => true);
+
+    if (this.formValue.level_id && this.formValue.level_id !== '') {
+      temp = temp.filter(elt => elt.level.id.toString() === this.formValue.level_id);
+    }
+    return temp;
+  }
+
+  // get possiblesUser() {
+  //   let temp = this.users.filter(elt => true);
+
+  //   if (this.formValue.level_id && this.formValue.level_id !== '') {
+  //     temp = temp.filter(elt => elt.level.id.toString() === this.formValue.level_id);
+  //   }
+  //   return temp;
+  // }
+
+
+  get possiblesCourses() {
+    let temp = this.cours.filter(elt => true);
+
+    if (this.formValue.level_id && this.formValue.level_id !== '') {
+      temp = temp.filter(elt => elt.level.id.toString() === this.formValue.level_id);
+    }
+    if (this.formValue.professor_id && this.formValue.professor_id !== '') {
+      temp = temp.filter(elt => elt.professors.some(prof => prof.id.toString() === this.formValue.professor_id));
+    }
+    if (this.formValue.semesters && this.formValue.semesters !== '') {
+      temp = temp.filter(elt => elt.semester.some(semes => semes.id.toString() === this.formValue.semesters));
+    }
+    return temp;
+  }
 
   get formValue() {
     return this.formPresence.value;
   }
+
+  // private submitForm(formData: any, formDirective: FormGroupDirective): void {
+  //   formDirective.resetForm();
+  //   this.formPresence.reset();
+  // }
 
   enregistrer() {
 
@@ -236,7 +330,7 @@ export class Tab3Page implements OnInit {
     formData.append('students', this.formValue.students);
     formData.append('semesters', this.formValue.semesters);
     formData.append('hall', this.formValue.hall);
-    
+
     // const bodyData = {
     //   date: this.formValue.date,
     //   duration: this.formValue.duration,
@@ -251,9 +345,12 @@ export class Tab3Page implements OnInit {
 
     this.httpClient.post('https://aware-backend.herokuapp.com/api/presence', formData, requestOptions).subscribe((e) => {
       console.log(e);
+      this.loginSuccess();
+      this.showLoading();
     },
       (err) => {
         console.log(err);
+        this.loginError('verifiez votre champs');
       })
 
   }
@@ -321,27 +418,71 @@ export class Tab3Page implements OnInit {
     return new File([u8arr], (filename + '.' + fileExt), { type: mime });
   }
 
+  get errorControl() {
+    return this.formPresence.controls;
+  }
+
   submitForm() {
     this.isSubmitted = true;
-    if (!this.ionicForm.valid) {
+    if (!this.formPresence.valid) {
       console.log('Encours!')
       return false;
     } else {
-      console.log(this.ionicForm.value)
+      console.log(this.formPresence.value)
     }
   }
+  // simpleLoader() {
+  //   this.loadingCtrl.create({
+  //     message: 'Loading...'
+  //   }).then((response) => {
+  //     response.present();
+  //   });
+  // }
+
+  //chargement......................
+  showLoading() {
+    this.loadingCtrl.create({
+      message: '...',
+    }).then((loading) => {
+      loading.present();
+
+      setTimeout(() => {
+        loading.dismiss();
+      }, 500);
+    });
+  }
+
+  async loginError(err: string) {
+    const toast = await this.toastController.create({
+      message: err,
+      position: 'middle',
+      duration: 2000,
+      color: 'danger',
+    });
+    toast.present();
+  }
+
+  async loginSuccess() {
+    const toast = await this.toastController.create({
+      message: 'Envoyer avec succés.',
+      position: 'middle',
+      duration: 2000,
+      color: 'primary',
+    });
+    toast.present();
+  }
 
 
-  displayAutoLoader() {
-    this.ionLoaderService.autoLoader();
-  }
-  showLoader() {
-    this.ionLoaderService.simpleLoader();
-  }
-  hideLoader() {
-    this.ionLoaderService.dismissLoader();
-  }
-  customizeLoader() {
-    this.ionLoaderService.customLoader();
-  }
+  // displayAutoLoader() {
+  //   this.ionLoaderService.autoLoader();
+  // }
+  // showLoader() {
+  //   this.ionLoaderService.simpleLoader();
+  // }
+  // hideLoader() {
+  //   this.ionLoaderService.dismissLoader();
+  // }
+  // customizeLoader() {
+  //   this.ionLoaderService.customLoader();
+  // }
 }

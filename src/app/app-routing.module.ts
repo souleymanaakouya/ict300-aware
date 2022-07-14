@@ -46,6 +46,14 @@ const routes: Routes = [
   {
     path: 'content',
     loadChildren: () => import('./content/content.module').then( m => m.ContentPageModule)
+  },
+  {
+    path: 'syllabus',
+    loadChildren: () => import('./syllabus/syllabus.module').then( m => m.SyllabusPageModule)
+  },
+  {
+    path: 'mymodal',
+    loadChildren: () => import('./mymodal/mymodal.module').then( m => m.MymodalPageModule)
   }
 ];
 @NgModule({

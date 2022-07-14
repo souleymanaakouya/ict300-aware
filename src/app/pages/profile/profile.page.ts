@@ -12,7 +12,9 @@ export class ProfilePage implements OnInit {
   users = {
     name: '',
     email: '',
-    role:''
+    role:'',
+    level:'',
+    matricule: '',
   };
 
   constructor(public httpClient: HttpClient, private modalController: ModalController) { }

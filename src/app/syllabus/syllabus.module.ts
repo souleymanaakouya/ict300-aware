@@ -4,20 +4,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { LoginPageRoutingModule } from './login-routing.module';
-import {HttpClientModule} from '@angular/common/http'
+import { SyllabusPageRoutingModule } from './syllabus-routing.module';
 
-import { LoginPage } from './login.page';
+import { SyllabusPage } from './syllabus.page';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    LoginPageRoutingModule,
+    SyllabusPageRoutingModule,
     HttpClientModule,
     ReactiveFormsModule
   ],
-  declarations: [LoginPage]
+  declarations: [SyllabusPage]
 })
-export class LoginPageModule {}
+export class SyllabusPageModule {}

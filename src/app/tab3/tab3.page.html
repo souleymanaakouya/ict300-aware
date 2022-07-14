@@ -2,10 +2,12 @@
   <ion-toolbar>
     <ion-title>
       <div class="top_menu">
-        <div class="top_menu_text text-center">Emargement</div>
-        <div class="top_menu_icon">
-          <ion-icon name="person-add-outline" (click)="presentPopover($event)"></ion-icon>
+        <div class="top_menu_text text-center">
+          <strong class="mycolor" align="center">EMARGEMENT</strong>
         </div>
+        <!-- <div class="top_menu_icon">
+          <ion-icon name="person-add-outline" (click)="presentPopover($event)"></ion-icon>
+        </div> -->
       </div>
     </ion-title>
   </ion-toolbar>
@@ -13,9 +15,9 @@
 
 <ion-content [fullscreen]="true">
   <div class="form ion-text-center">
-    <form [formGroup]="formPresence" (ngSubmit)='enregistrer()' (ngSubmit)="submitForm()">
+    <form [formGroup]="formPresence" (ngSubmit)='enregistrer()' (ngSubmit)="submitForm()" novalidate>
       <ion-list>
-        
+
         <ion-card>
           <ion-item>
             <ion-label>SEMESTRE : </ion-label>
@@ -25,6 +27,9 @@
               </ion-select-option>
             </ion-select>
           </ion-item>
+          <span class="error ion-padding" class="couleur" *ngIf="isSubmitted && errorControl.name.errors?.required">
+            Inserez le semestre
+          </span>
         </ion-card>
 
         <ion-card>
@@ -34,6 +39,9 @@
               <ion-select-option *ngFor="let level of levels" value={{level?.id}}>{{level?.name}}</ion-select-option>
             </ion-select>
           </ion-item>
+          <span class="error ion-padding" class="couleur" *ngIf="isSubmitted && errorControl.level_id.errors?.required">
+            Inserez le NIVEAU
+          </span>
         </ion-card>
 
         <ion-card>
@@ -45,7 +53,26 @@
               </ion-select-option>
             </ion-select>
           </ion-item>
+          <span class="error ion-padding" class="couleur"
+            *ngIf="isSubmitted && errorControl.professor_id.errors?.required">
+            Inserez le semestre
+          </span>
         </ion-card>
+
+        <ion-card>
+          <ion-item>
+            <ion-label> UE : </ion-label>
+            <ion-select formControlName="course_id" interface="popover" placeholder="Select UE" *ngIf='hasLoadedCours'>
+              <ion-select-option value={{cour?.id}} *ngFor="let cour of possiblesCourses">{{cour?.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <span class="error ion-padding" class="couleur"
+            *ngIf="isSubmitted && errorControl.course_id.errors?.required">
+            Inserez une UE
+          </span>
+        </ion-card>
+
 
         <ion-card>
           <ion-item>
@@ -56,15 +83,6 @@
           </ion-item>
         </ion-card>
 
-        <ion-card>
-          <ion-item>
-            <ion-label> EU : </ion-label>
-            <ion-select formControlName="course_id" interface="popover" placeholder="Select UE" *ngIf='hasLoadedCours'>
-              <ion-select-option value={{cour?.id}} *ngFor="let cour of possiblesCours">{{cour?.name}}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-card>
 
         <ion-card>
           <ion-item>
@@ -75,52 +93,61 @@
               <ion-select-option value="S102">S102</ion-select-option>
             </ion-select>
           </ion-item>
+          <span class="error ion-padding" class="couleur" *ngIf="isSubmitted && errorControl.hall.errors?.required">
+            Inserez une SALLE
+          </span>
         </ion-card>
 
         <ion-card>
           <ion-item>
             <ion-label>SEANCE : </ion-label>
-            <ion-select interface="popover" placeholder="Select seance" formControlName="session">
+            <ion-select interface="popover" placeholder="Selectseance" formControlName="session">
               <ion-select-option value="CM">CM</ion-select-option>
               <ion-select-option value="TP">TP</ion-select-option>
               <ion-select-option value="SN">SN</ion-select-option>
             </ion-select>
           </ion-item>
+          <span class="error ion-padding" class="couleur" *ngIf="isSubmitted && errorControl.session.errors?.required">
+            Inserez une SEANCE
+          </span>
         </ion-card>
 
         <ion-card>
           <ion-item>
             <ion-label>TOTAL HORAIRE : </ion-label>
             <ion-select interface="popover" placeholder="Select Time" formControlName="duration">
-              <ion-select-option value="1">2</ion-select-option>
-              <ion-select-option value="2">3</ion-select-option>
-              <ion-select-option value="3">4</ion-select-option>
-              <ion-select-option value="4">5</ion-select-option>
+              <ion-select-option value="1">1</ion-select-option>
+              <ion-select-option value="2">2</ion-select-option>
+              <ion-select-option value="3">3</ion-select-option>
+              <ion-select-option value="4">4</ion-select-option>
+              <ion-select-option value="5">5</ion-select-option>
             </ion-select>
           </ion-item>
+          <span class="error ion-padding" class="couleur" *ngIf="isSubmitted && errorControl.duration.errors?.required">
+            Inserez le nombre d'heure
+          </span>
         </ion-card>
 
         <ion-card>
           <ion-item>
             <ion-label>DATE: </ion-label>
             <ion-input formControlName="date" id="date" type='date' class="ion-text-end"></ion-input>
-            <!-- <ion-popover trigger="date" size="cover">
-              <ng-template>
-                <ion-datetime presentation="date" formControlName="date" locale="sl-SI"></ion-datetime>
-              </ng-template>
-            </ion-popover> -->
           </ion-item>
         </ion-card>
+
 
         <ion-card>
           <ion-item>
             <ion-label>Etudiant : </ion-label>
             <ion-select formControlName="students" multiple="true" placeholder="Select Student" cancelText="Fermer"
               okText="Ok" *ngIf='hasLoadedStudents'>
-              <ion-select-option *ngFor="let student of possiblesStudents" value={{student?.students}}>{{student?.name}}
+              <ion-select-option *ngFor="let student of possiblesStudent" value={{student?.students}}>{{student?.name}}
               </ion-select-option>
             </ion-select>
           </ion-item>
+          <span class="error ion-padding" class="couleur" *ngIf="isSubmitted && errorControl.students.errors?.required">
+            selectionnez les Etudiants presence.
+          </span>
         </ion-card>
 
         <ion-card>
@@ -128,19 +155,22 @@
             <ion-textarea rows="5" cols="20" formControlName="content" placeholder="Enter any notes here...">Contenu du
               cours :</ion-textarea>
           </ion-item>
+          <span class="error ion-padding" class="couleur" *ngIf="isSubmitted && errorControl.content.errors?.required">
+            Inserez le contenu du cours
+          </span>
         </ion-card>
+
 
         <ion-card>
           <img [src]='image' *ngIf='image' />
+          <span class="error ion-padding" class="couleur"
+            *ngIf="isSubmitted && errorControl.signature.errors?.required">
+            Inserez votre SIGNATURE
+          </span>
         </ion-card>
 
-        <p (click)="openModal()">cliquez pour la SIGNATURE </p>
-
-        <!-- <ion-button type='submit' expand="block" shape="round">enregistrer</ion-button> -->
-        <!-- <ion-card>
-
-        </ion-card> -->
-        <ion-button type="submit" (click)="customizeLoader()" expand="block" shape="round">ENVOYER</ion-button>
+        <p (click)="openModal()">SIGNATURE </p>
+        <ion-button type="submit" expand="block" shape="round">ENVOYER</ion-button>
       </ion-list>
     </form>
   </div>
